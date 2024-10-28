@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form id="editProductForm">

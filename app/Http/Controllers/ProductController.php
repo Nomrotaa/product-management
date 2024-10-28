@@ -11,23 +11,23 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
-public function index(Request $request)
-{
-    if ($request->ajax()) {
-        $products = Product::select(['id', 'title', 'description', 'price']);
-        return DataTables::of($products)
-            ->addColumn('action', function ($product) {
-                return '
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = Product::select(['id', 'title', 'description', 'price']);
+            return DataTables::of($products)
+                ->addColumn('action', function ($product) {
+                    return '
                     <a href="javascript:void(0)" data-id="' . $product->id . '" class="btn btn-sm btn-primary edit-btn">Edit</a>
                     <a href="javascript:void(0)" data-id="' . $product->id . '" class="btn btn-sm btn-danger delete-btn">Delete</a>
                 ';
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
-    return view('products.index');
-}
+        return view('products.index');
+    }
 
 
     public function create()
@@ -84,18 +84,16 @@ public function index(Request $request)
 
     // ProductController.php
 
-public function destroy($id)
-{
-    try {
-        $product = Product::findOrFail($id);
-        $product->delete();
+    public function destroy($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $product->delete();
 
-        return response()->json(['success' => 'Product deleted successfully!']);
-    } catch (\Exception $e) {
-        \Log::error($e->getMessage()); // Log the error for debugging
-        return response()->json(['error' => 'Unable to delete product.'], 500);
+            return response()->json(['success' => 'Product deleted successfully!']);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage()); // Log the error for debugging
+            return response()->json(['error' => 'Unable to delete product.'], 500);
+        }
     }
 }
-
-}
-
